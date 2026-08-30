@@ -203,28 +203,11 @@
 
 
         <div class="menu">
-
-            <a href="${pageContext.request.contextPath}/home">
-
-                Dashboard
-
-            </a>
-
-
-            <a class="active"
-               href="${pageContext.request.contextPath}/profile">
-
-                Thông tin cá nhân
-
-            </a>
-
-
-            <a href="${pageContext.request.contextPath}/admin/category/list">
-
-                Quản lý danh mục
-
-            </a>
-
+            <a href="${pageContext.request.contextPath}/home">Dashboard</a>
+            <a class="active" href="${pageContext.request.contextPath}/profile">Thông tin cá nhân</a>
+            <a href="${pageContext.request.contextPath}/admin/category/list">Quản lý danh mục</a>
+            <a href="${pageContext.request.contextPath}/admin/product/list">Quản lý sản phẩm</a>
+            <a href="${pageContext.request.contextPath}/product">Trang sản phẩm</a>
         </div>
 
     </aside>

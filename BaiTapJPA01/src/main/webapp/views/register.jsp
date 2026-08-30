@@ -259,7 +259,8 @@ body {
                 <input
                     type="email"
                     name="email"
-                    placeholder="example@gmail.com">
+                    placeholder="example@gmail.com"
+                    required>
 
             </div>
 

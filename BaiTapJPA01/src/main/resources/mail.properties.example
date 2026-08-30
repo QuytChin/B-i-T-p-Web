@@ -1,0 +1,6 @@
+# Copy file này thành mail.properties rồi điền Gmail của bạn.
+# KHÔNG push mail.properties chứa App Password lên GitHub.
+mail.username=YOUR_GMAIL@gmail.com
+mail.appPassword=YOUR_GMAIL_APP_PASSWORD
+mail.host=smtp.gmail.com
+mail.port=587

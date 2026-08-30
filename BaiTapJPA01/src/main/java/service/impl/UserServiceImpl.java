@@ -9,59 +9,41 @@ import service.UserService;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao =
-            new UserDaoImpl();
+    private final UserDao userDao = new UserDaoImpl();
 
     @Override
-    public User login(
-            String username,
-            String password) {
-
-        User user =
-                userDao.get(username);
-
-        if (user != null
-                && password.equals(user.getPassword())) {
-
+    public User login(String username, String password) {
+        User user = userDao.get(username);
+        if (user != null && password != null && password.equals(user.getPassword())) {
             return user;
         }
-
         return null;
     }
 
     @Override
-    public boolean register(
-            String username,
-            String password,
-            String email,
-            String fullname,
-            String phone,
-            String studentId) {
-
-        if (userDao.checkExistUsername(username)) {
+    public boolean register(String username, String password, String email,
+            String fullname, String phone, String studentId) {
+        if (userDao.checkExistUsername(username) || userDao.checkExistEmail(email)) {
             return false;
         }
 
-        Date date =
-                new Date(System.currentTimeMillis());
-
-        User user =
-                new User(
-                        email,
-                        username,
-                        fullname,
-                        password,
-                        null,
-
-                        // Theo bài giảng: tài khoản mới role = 5
-                        5,
-
-                        phone,
-                        studentId,
-                        date);
-
+        Date date = new Date(System.currentTimeMillis());
+        User user = new User(email, username, fullname, password, null, 5, phone, studentId, date);
         userDao.insert(user);
+        return true;
+    }
 
+    @Override
+    public User findByEmail(String email) {
+        return userDao.getByEmail(email);
+    }
+
+    @Override
+    public boolean resetPassword(String email, String newPassword) {
+        User user = userDao.getByEmail(email);
+        if (user == null) return false;
+        user.setPassword(newPassword);
+        userDao.update(user);
         return true;
     }
 

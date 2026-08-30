@@ -767,6 +767,11 @@ body {
 
                 </label>
 
+                <a href="${pageContext.request.contextPath}/forgot-password"
+                   style="color:#2563eb;font-size:14px;text-decoration:none;font-weight:bold;">
+                    Quên mật khẩu?
+                </a>
+
             </div>
 
 

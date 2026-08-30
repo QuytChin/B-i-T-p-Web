@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>LTWeb</groupId>
-    <artifactId>BaiTap01</artifactId>
+    <artifactId>BaiTapJPA01</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
@@ -34,6 +34,14 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>12.8.1.jre11</version>
+        </dependency>
+
+
+        <!-- Jakarta Mail: gửi OTP đăng ký / quên mật khẩu -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
         </dependency>
 
         <!-- Jakarta Servlet cho Tomcat 10.1 -->
@@ -66,7 +74,7 @@
     </dependencies>
 
     <build>
-        <finalName>BaiTap01</finalName>
+        <finalName>BaiTapJPA01</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

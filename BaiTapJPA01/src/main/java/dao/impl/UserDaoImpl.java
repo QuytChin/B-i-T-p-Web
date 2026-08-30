@@ -28,14 +28,44 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public void update(User user) {
+        EntityManager em = JpaConfig.getEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(user);
+            trans.commit();
+        } catch (RuntimeException e) {
+            if (trans.isActive()) trans.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public User get(String username) {
         if (username == null || username.isBlank()) return null;
-
         EntityManager em = JpaConfig.getEntityManager();
         try {
             TypedQuery<User> query = em.createQuery(
                     "SELECT u FROM AppUser u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
+            List<User> result = query.setMaxResults(1).getResultList();
+            return result.isEmpty() ? null : result.get(0);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        if (email == null || email.isBlank()) return null;
+        EntityManager em = JpaConfig.getEntityManager();
+        try {
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT u FROM AppUser u WHERE u.email = :email", User.class);
+            query.setParameter("email", email);
             List<User> result = query.setMaxResults(1).getResultList();
             return result.isEmpty() ? null : result.get(0);
         } finally {
@@ -60,7 +90,6 @@ public class UserDaoImpl implements UserDao {
 
     private boolean existsByField(String field, String value) {
         if (value == null || value.isBlank()) return false;
-
         EntityManager em = JpaConfig.getEntityManager();
         try {
             Long count = em.createQuery(

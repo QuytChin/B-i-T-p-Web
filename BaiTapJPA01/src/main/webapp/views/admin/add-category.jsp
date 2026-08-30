@@ -26,29 +26,15 @@
         </div>
 
         <div class="menu">
-            <a href="${pageContext.request.contextPath}/home">
-                Dashboard
-            </a>
-            
-            <a href="${pageContext.request.contextPath}/profile">
-
-		        Thông tin cá nhân
-		
-		    </a>
-
-            <a class="active" href="#">
-                Quản lý danh mục
-            </a>
-
+            <a href="${pageContext.request.contextPath}/home">Dashboard</a>
+            <a href="${pageContext.request.contextPath}/profile">Thông tin cá nhân</a>
+            <a class="active" href="${pageContext.request.contextPath}/admin/category/list">Quản lý danh mục</a>
             <div class="submenu">
-                <a class="active" href="${pageContext.request.contextPath}/admin/category/add">
-                    + Thêm danh mục mới
-                </a>
-
-                <a href="${pageContext.request.contextPath}/admin/category/list">
-                    + Danh sách danh mục
-                </a>
+                <a class="active" href="${pageContext.request.contextPath}/admin/category/add">+ Thêm danh mục mới</a>
+                <a  href="${pageContext.request.contextPath}/admin/category/list">+ Danh sách danh mục</a>
             </div>
+            <a href="${pageContext.request.contextPath}/admin/product/list">Quản lý sản phẩm</a>
+            <a href="${pageContext.request.contextPath}/product">Trang sản phẩm</a>
         </div>
     </aside>
 
