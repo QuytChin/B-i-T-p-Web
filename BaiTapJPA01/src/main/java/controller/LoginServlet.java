@@ -146,6 +146,9 @@ public class LoginServlet extends HttpServlet {
         	session.setAttribute(
         	        "phone",
         	        user.getPhone());
+        	session.setAttribute(
+        	        "avatar",
+        	        user.getAvatar());
 
         	session.setMaxInactiveInterval(
         	        15 * 60);

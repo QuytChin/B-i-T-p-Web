@@ -2,70 +2,64 @@
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c"
+    uri="jakarta.tags.core"%>
+
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
-<meta charset="UTF-8">
-
 <title>Thông tin cá nhân</title>
 
-<link rel="stylesheet"
-      href="<%= request.getContextPath() %>/assets/css/admin.css">
 
 <style>
 
-/* ===== PROFILE PAGE ===== */
-
 .profile-page {
-    max-width: 900px;
+    max-width: 850px;
     margin: 0 auto;
 }
 
-.profile-heading {
-    text-align: center;
-    margin-bottom: 28px;
+
+.profile-title {
+    margin-bottom: 25px;
 }
 
-.profile-heading h1 {
-    margin: 0 0 8px;
-    font-size: 32px;
-    color: #1e3a8a;
-}
-
-.profile-heading p {
+.profile-title h1 {
     margin: 0;
-    color: #6b7280;
-    font-size: 15px;
+    color: #1e3a8a;
+    font-size: 30px;
 }
 
-.profile-wrapper {
-    max-width: 760px;
-    margin: 0 auto;
 
-    background: white;
+.profile-card {
 
-    padding: 38px 42px;
+    background: #ffffff;
+
+    padding: 32px;
 
     border-radius: 18px;
 
     box-shadow:
-        0 10px 30px rgba(15, 23, 42, 0.10);
+        0 8px 30px
+        rgba(15, 23, 42, 0.10);
 }
 
-.profile-top {
+
+.profile-avatar-box {
+
     text-align: center;
 
-    padding-bottom: 26px;
-    margin-bottom: 28px;
-
-    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 30px;
 }
 
-.profile-avatar-img {
-    width: 155px;
-    height: 155px;
+
+.profile-avatar {
+
+    width: 150px;
+    height: 150px;
 
     object-fit: cover;
 
@@ -74,97 +68,149 @@
     border: 5px solid #eff6ff;
 
     box-shadow:
-        0 8px 24px rgba(15, 23, 42, 0.16);
-}
-
-.profile-name {
-    margin-top: 16px;
-
-    font-size: 24px;
-    font-weight: bold;
-
-    color: #111827;
-}
-
-.profile-role {
-    display: inline-block;
-
-    margin-top: 8px;
-
-    padding: 6px 13px;
-
-    border-radius: 20px;
-
-    background: #eff6ff;
-
-    color: #1e40af;
-
-    font-size: 13px;
-    font-weight: bold;
+        0 6px 20px
+        rgba(0, 0, 0, 0.15);
 }
 
 
-/* INFO GRID */
+.upload-image {
 
-.profile-info-grid {
+    display: block;
+
+    margin: 15px auto 0;
+
+    max-width: 300px;
+}
+
+
+.form-grid {
+
     display: grid;
 
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap: 16px;
+    gap: 20px;
 }
 
-.profile-item {
-    padding: 18px 20px;
 
-    background: #f8fafc;
+.form-group {
 
-    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
 
-    border-radius: 12px;
+    gap: 7px;
 }
 
-.profile-label {
-    margin-bottom: 6px;
 
-    font-size: 13px;
+.form-group.full {
+
+    grid-column:
+        1 / -1;
+}
+
+
+.form-group label {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #374151;
+}
+
+
+.form-control {
+
+    padding: 12px 14px;
+
+    border:
+
+        1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+.form-control:focus {
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .10);
+}
+
+
+.form-control[readonly] {
+
+    background: #f3f4f6;
 
     color: #6b7280;
 }
 
-.profile-value {
-    font-size: 17px;
+
+.profile-message {
+
+    padding: 12px 16px;
+
+    margin-bottom: 20px;
+
+    border-radius: 9px;
+
+    background: #dcfce7;
+
+    color: #166534;
+
+    font-weight: 600;
+}
+
+
+.actions {
+
+    margin-top: 28px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+}
+
+
+.btn-save {
+
+    padding: 12px 22px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #2563eb;
+
+    color: white;
 
     font-weight: bold;
 
-    color: #111827;
+    cursor: pointer;
 }
 
 
-/* BUTTON */
+.btn-save:hover {
 
-.profile-actions {
-    display: flex;
-
-    justify-content: center;
-
-    gap: 12px;
-
-    margin-top: 28px;
+    background: #1d4ed8;
 }
 
 
-/* MOBILE */
+@media(max-width: 700px) {
 
-@media (max-width: 700px) {
+    .form-grid {
 
-    .profile-info-grid {
         grid-template-columns: 1fr;
-    }
-
-    .profile-wrapper {
-        padding: 28px 20px;
     }
 
 }
@@ -176,238 +222,235 @@
 
 <body>
 
-<div class="admin-wrapper">
+
+<c:choose>
+
+    <c:when test="${not empty user.avatar}">
+
+        <c:url
+            value="/image"
+            var="profileAvatar">
+
+            <c:param
+                name="fname"
+                value="${user.avatar}" />
+
+        </c:url>
+
+    </c:when>
 
 
-    <!-- ================= SIDEBAR ================= -->
+    <c:otherwise>
 
-    <aside class="sidebar">
+        <c:url
+            value="/assets/images/avatar.jpg"
+            var="profileAvatar" />
 
-        <div class="brand">
-            Dashboard
-        </div>
+    </c:otherwise>
+
+</c:choose>
 
 
-        <div class="admin-box">
 
-            <img
-                src="<%= request.getContextPath() %>/assets/images/avatar.jpg"
-                class="avatar-img"
-                alt="Avatar">
+<div class="profile-page">
 
-            <div class="admin-text">
-                Bạn là Admin
+
+    <div class="profile-title">
+
+        <h1>
+            Thông tin cá nhân
+        </h1>
+
+    </div>
+
+
+    <div class="profile-card">
+
+
+        <c:if test="${not empty message}">
+
+            <div class="profile-message">
+
+                ${message}
+
             </div>
 
-        </div>
+        </c:if>
 
 
-        <div class="menu">
-            <a href="${pageContext.request.contextPath}/home">Dashboard</a>
-            <a class="active" href="${pageContext.request.contextPath}/profile">Thông tin cá nhân</a>
-            <a href="${pageContext.request.contextPath}/admin/category/list">Quản lý danh mục</a>
-            <a href="${pageContext.request.contextPath}/admin/product/list">Quản lý sản phẩm</a>
-            <a href="${pageContext.request.contextPath}/product">Trang sản phẩm</a>
-        </div>
-
-    </aside>
+        <form
+            action="${pageContext.request.contextPath}/profile"
+            method="post"
+            enctype="multipart/form-data">
 
 
-    <!-- ================= MAIN ================= -->
+            <!-- ================= AVATAR ================= -->
 
-    <div class="main">
+            <div class="profile-avatar-box">
 
-
-        <!-- TOPBAR -->
-
-        <div class="topbar">
-
-            <div class="topbar-user">
 
                 <img
-                    src="<%= request.getContextPath() %>/assets/images/avatar.jpg"
-                    class="topbar-avatar"
+                    id="avatarPreview"
+                    src="${profileAvatar}"
+                    class="profile-avatar"
                     alt="Avatar">
 
-                <div class="welcome">
 
-                    Xin chào
+                <input
+                    type="file"
+                    name="images"
+                    accept="image/*"
+                    class="upload-image"
+                    onchange="previewAvatar(this)">
 
-                    <strong>
-                        ${sessionScope.username}
-                    </strong>
+            </div>
+
+
+
+            <!-- ================= FORM ================= -->
+
+            <div class="form-grid">
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Tên đăng nhập
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="text"
+                        value="${user.username}"
+                        readonly>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="text"
+                        value="${user.email}"
+                        readonly>
+
+                </div>
+
+
+                <!-- FULLNAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Họ và tên
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="text"
+                        name="fullname"
+                        value="${user.fullname}"
+                        required>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Số điện thoại
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="text"
+                        name="phone"
+                        value="${user.phone}">
+
+                </div>
+
+
+                <!-- STUDENT ID -->
+
+                <div class="form-group full">
+
+                    <label>
+                        Mã số sinh viên
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="text"
+                        value="${user.studentId}"
+                        readonly>
 
                 </div>
 
             </div>
 
 
-            <a
-                class="logout-btn"
-                href="${pageContext.request.contextPath}/logout">
 
-                Đăng xuất
+            <!-- ================= BUTTON ================= -->
 
-            </a>
+            <div class="actions">
 
-        </div>
+                <button
+                    type="submit"
+                    class="btn-save">
 
+                    Cập nhật thông tin
 
-        <!-- ================= CONTENT ================= -->
-
-        <main class="content">
-
-            <div class="profile-page">
-
-
-                <!-- TITLE -->
-
-                <div class="profile-heading">
-
-                    <h1>
-                        Thông tin cá nhân
-                    </h1>
-
-                    <p>
-                        Thông tin tài khoản đang đăng nhập
-                    </p>
-
-                </div>
-
-
-                <!-- PROFILE CARD -->
-
-                <div class="profile-wrapper">
-
-
-                    <!-- AVATAR -->
-
-                    <div class="profile-top">
-
-                        <img
-                            src="<%= request.getContextPath() %>/assets/images/avatar.jpg"
-                            class="profile-avatar-img"
-                            alt="Avatar">
-
-
-                        <div class="profile-name">
-
-                            ${sessionScope.fullname}
-
-                        </div>
-
-
-                        <div class="profile-role">
-
-                            Administrator
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- INFORMATION -->
-
-                    <div class="profile-info-grid">
-
-
-                        <div class="profile-item">
-
-                            <div class="profile-label">
-                                Tên đăng nhập
-                            </div>
-
-                            <div class="profile-value">
-
-                                ${sessionScope.username}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="profile-item">
-
-                            <div class="profile-label">
-                                Họ và tên
-                            </div>
-
-                            <div class="profile-value">
-
-                                ${sessionScope.fullname}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="profile-item">
-
-                            <div class="profile-label">
-                                Mã số sinh viên
-                            </div>
-
-                            <div class="profile-value">
-
-                                ${sessionScope.studentId}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="profile-item">
-
-                            <div class="profile-label">
-                                Vai trò
-                            </div>
-
-                            <div class="profile-value">
-
-                                Administrator
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- ACTION -->
-
-                    <div class="profile-actions">
-
-                        <a
-                            class="btn btn-primary"
-                            href="${pageContext.request.contextPath}/home">
-
-                            Về Dashboard
-
-                        </a>
-
-
-                        <a
-                            class="btn btn-secondary"
-                            href="${pageContext.request.contextPath}/admin/category/list">
-
-                            Quản lý danh mục
-
-                        </a>
-
-                    </div>
-
-
-                </div>
+                </button>
 
             </div>
 
-        </main>
+        </form>
 
 
     </div>
 
 </div>
+
+
+
+<script>
+
+function previewAvatar(input) {
+
+    if (input.files
+            && input.files[0]) {
+
+        const reader =
+            new FileReader();
+
+        reader.onload =
+            function(e) {
+
+                document
+                    .getElementById(
+                        "avatarPreview")
+                    .src =
+                        e.target.result;
+            };
+
+        reader.readAsDataURL(
+            input.files[0]);
+    }
+}
+
+</script>
+
 
 </body>
 

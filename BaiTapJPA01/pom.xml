@@ -71,6 +71,13 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>3.0.1</version>
         </dependency>
+        
+        <!-- SiteMesh - quản lý layout giao diện -->
+		<dependency>
+		    <groupId>org.sitemesh</groupId>
+		    <artifactId>sitemesh</artifactId>
+		    <version>3.2.1</version>
+		</dependency>
     </dependencies>
 
     <build>

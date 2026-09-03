@@ -19,6 +19,40 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+    
+    @Override
+    public User findByUsername(String username) {
+
+        return userDao.get(username);
+    }
+    
+    @Override
+    public boolean updateProfile(
+            String username,
+            String fullname,
+            String phone,
+            String avatar) {
+
+        User user =
+                userDao.get(username);
+
+        if (user == null) {
+            return false;
+        }
+
+        user.setFullname(fullname);
+        user.setPhone(phone);
+
+        if (avatar != null
+                && !avatar.isBlank()) {
+
+            user.setAvatar(avatar);
+        }
+
+        userDao.update(user);
+
+        return true;
+    }
 
     @Override
     public boolean register(String username, String password, String email,

@@ -1,6 +1,5 @@
 package service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import dao.ProductDao;
@@ -8,15 +7,14 @@ import dao.impl.ProductDaoImpl;
 import entity.Product;
 import service.ProductService;
 
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl
+        implements ProductService {
 
-    private final ProductDao productDao = new ProductDaoImpl();
+    private final ProductDao productDao =
+            new ProductDaoImpl();
 
     @Override
     public void insert(Product product) {
-        if (product.getCreatedDate() == null) {
-            product.setCreatedDate(LocalDateTime.now());
-        }
         productDao.insert(product);
     }
 
@@ -46,12 +44,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getPage(int page, int pageSize) {
-        return productDao.getPage(page, pageSize);
+    public List<Product> getPage(
+            int page,
+            int pageSize) {
+
+        return productDao.getPage(
+                page,
+                pageSize);
     }
 
     @Override
-    public long count() {
-        return productDao.count();
+    public int count() {
+        return (int) productDao.count();
     }
 }
